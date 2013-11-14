@@ -16,8 +16,9 @@
 <link href="contacts-create.html" rel="import">
 <link href="contacts-detail.html" rel="import">
 <link href="contacts-icon.html" rel="import">
+<link href="contacts-list-item.html" rel="import">
 <link href="mock-data.html" rel="import">
-<polymer-element name="contacts-app" attributes="page desktopLayout tabletLayout">
+<polymer-element name="contacts-app" attributes="page desktopLayout tabletLayout wcList">
 	<template>
 		<style>
 			:host {
@@ -71,25 +72,25 @@
         min-width: 320px;
         max-width: 384px;
       }
-			polymer-sectioned-list {
+			#list {
 				height: 100%;
 			}
-      [tabletLayout] polymer-sectioned-list {
+      [tabletLayout] #list {
         margin: 24px;
       }
 			.contactItem {
 				position: relative;
 			}
-      polymer-sectioned-list ^ #sticky,
+      #list ^ #sticky,
 			.contactItem {
 				font-size: 14px;
 				font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, sans-serif;
 				user-select: none;
 			}
-      [tabletLayout] polymer-sectioned-list ^ #sticky {
+      [tabletLayout] #list ^ #sticky {
         display: none;
       }
-      polymer-sectioned-list ^ #sticky,
+      #list ^ #sticky,
 			.contactItem.header {
 		    background: white;
 				border-style: solid;
@@ -226,11 +227,11 @@
 			</template>
 		</polymer-ui-toolbar>
 		<div id="listContainer" desktopLayout?="{{desktopLayout}}" tabletLayout?="{{tabletLayout}}">
-			<polymer-sectioned-list id="list" data="{{$.mock.withHeaders}}">
+			<polymer-list id="list" data="{{$.mock.withHeaders}}">
 				<template>
-					<!-- <contacts-list-item contact="{{contact}}"></contacts-list-item> -->
-
-					<div class="contactItem header" hidden?="{{!item.header}}">
+					<contacts-list-item item="{{item}}"></contacts-list-item>
+					
+<!-- 					<div class="contactItem header" hidden?="{{!item.header}}">
 						{{item.header}}
 					</div>
 					<div class="contactItem" hidden?="{{item.header}}" selected?="{{item.selected}}" on-pointerdown="{{pointerdownAction}}">
@@ -245,9 +246,9 @@
 							<div><span class="firstName">{{item.firstName}}</span> {{item.surname}}</div>
 						</div>
 					</div>
-					
+ -->					
 				</template>
-			</polymer-sectioned-list>
+			</polymer-list>
 		</div>
 		<contacts-detail id="details" contact="{{selectedContact.contact}}" desktopLayout?="{{desktopLayout}}" on-contacts-detail-cancel="{{closeDetailsAction}}"></contacts-detail>
 		<polymer-ui-overlay id="createOverlay" xdesktopLayout?="{{desktopLayout}}" autocloseDisabled backdrop on-polymer-overlay-open="{{openCreateAction}}">
