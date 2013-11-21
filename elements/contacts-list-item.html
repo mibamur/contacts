@@ -71,19 +71,26 @@
 			}
 		</style>
 		<div class="contactItem header" hidden?="{{!item.header}}">
-				{{item.header}}
+			{{item.header}}
+		</div>
+		<div class="contactItem" hidden?="{{item.header}}" selected?="{{item.selected}}" on-pointerdown="{{pointerdownAction}}">
+			<div class="contactItemControls active"></div>
+			<div class="contactItemControls">
+				<polymer-ui-icon-button icon="close"></polymer-ui-icon-button>
 			</div>
-			<div class="contactItem" hidden?="{{item.header}}" selected?="{{item.selected}}" on-pointerdown="{{pointerdownAction}}">
-				<div class="contactItemControls active"></div>
-				<div class="contactItemControls">
-					<polymer-ui-icon-button icon="close"></polymer-ui-icon-button>
-				</div>
-				<div class="contactItemBody" on-click="{{activateAction}}">
-					<div class="contactItemInk"></div>
-					<polymer-flex-layout align="center"></polymer-flex-layout>
-						<contacts-icon contact="{{item}}"></contacts-icon>
-					<div><span class="firstName">{{item.firstName}}</span> {{item.surname}}</div>
-				</div>
+			<div class="contactItemBody" on-click="{{activateAction}}">
+				<div class="contactItemInk"></div>
+				<polymer-flex-layout align="center"></polymer-flex-layout>
+					<contacts-icon contact="{{item}}"></contacts-icon>
+				<div><span class="firstName">{{item.firstName}}</span> {{item.surname}}</div>
 			</div>
+		</div>
 	</template>
+	<script>
+		Polymer('contacts-list-item', {
+			activateAction: function() {
+				this.fire('contacts-list-item-activate');
+			}
+		})
+	</script>
 </polymer-element>

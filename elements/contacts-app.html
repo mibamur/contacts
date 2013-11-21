@@ -228,7 +228,7 @@
 		<div id="listContainer" desktopLayout?="{{desktopLayout}}" tabletLayout?="{{tabletLayout}}">
 			<polymer-list id="list" data="{{$.mock.withHeaders}}">
 				<template>
-					<contacts-list-item item="{{item}}"></contacts-list-item>
+					<contacts-list-item item="{{item}}" on-contacts-list-item-activate="{{activateAction}}"></contacts-list-item>
 					
 <!-- 					<div class="contactItem header" hidden?="{{!item.header}}">
 						{{item.header}}
@@ -249,7 +249,7 @@
 				</template>
 			</polymer-list>
 		</div>
-		<contacts-detail id="details" contact="{{selectedContact.contact}}" desktopLayout?="{{desktopLayout}}" on-contacts-detail-cancel="{{closeDetailsAction}}"></contacts-detail>
+		<contacts-detail id="details" contact="{{selectedContact}}" desktopLayout?="{{desktopLayout}}" on-contacts-detail-cancel="{{closeDetailsAction}}"></contacts-detail>
 		<polymer-ui-overlay id="createOverlay" desktopLayout?="{{desktopLayout}}" autocloseDisabled backdrop on-polymer-overlay-open="{{openCreateAction}}">
 			<contacts-create id="create" on-contacts-create-cancel="{{closeCreateAction}}" on-contacts-create="{{closeCreateAction}}"></contacts-create>
 		</polymer-ui-overlay>
@@ -295,7 +295,7 @@
       },
 			ready: function() {
 				this.activateTransitions = [this.$.activateAnimation, null];
-        this.selectedContact = {contact: this.$.mock.contacts[0]};
+        this.selectedContact = this.$.mock.contacts[0];
         this.layoutChanged();
 			},
 			enableOverlays: function() {
@@ -382,10 +382,10 @@
 			activateAction: function(e, detail, sender) {
 				if (!this.$.scrub.scrubbing) {
 					if (this.selectedContact) {
-						this.selectedContact.contact.selected = false;
+						this.selectedContact.selected = false;
 					}
-					this.selectedContact = sender.templateInstance.model;
-					this.selectedContact.contact.selected = true;
+					this.selectedContact = sender.templateInstance.model.item;
+					this.selectedContact.selected = true;
 					if (!this.desktopLayout) {
 						this.$.detailsOverlay.opened = true;
 					}
